@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      nodeSelector:
+        karpenter.sh/provisioner-name: default
+      topologySpreadConstraints:
+        - maxSkew: 1
+          whenUnsatisfiable: DoNotSchedule
+          topologyKey: topology.kubernetes.io/zone
+          labelSelector:
+            matchLabels:
+              app: nginx
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+      resources:
+        requests:
+          memory: 256Mi
+          cpu: 250m
+        limits:
+          memory: 256Mi
+          cpu: 250m
+        
