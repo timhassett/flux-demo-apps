@@ -4,7 +4,7 @@ metadata:
   name: nginx
   namespace: default
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: nginx
@@ -13,8 +13,8 @@ spec:
       labels:
         app: nginx
     spec:
-      nodeSelector:
-        karpenter.sh/provisioner-name: default
+#      nodeSelector:
+#        karpenter.sh/provisioner-name: default
       topologySpreadConstraints:
         - maxSkew: 1
           whenUnsatisfiable: DoNotSchedule
