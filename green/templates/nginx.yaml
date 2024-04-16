@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.nginx.name}}
+  namespace: {{ .Values.nginx.namespace}}
+  labels: 
+    app: {{ .Values.nginx.label}}
+spec:
+  replicas: {{ .Values.nginx.replicas}}
+  selector:
+    matchLabels:
+      app: {{ .Values.nginx.name}}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.nginx.name}}
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          whenUnsatisfiable: DoNotSchedule
+          topologyKey: topology.kubernetes.io/zone
+          labelSelector:
+            matchLabels:
+              app: {{ .Values.nginx.name}}
+      containers:
+      - name: {{ .Values.nginx.name}}
+        image: {{ .Values.nginx.image}}
+        imagePullPolicy: {{ .Values.nginx.imagePullPolicy}}
+        ports:
+        - containerPort: {{ .Values.nginx.containerPort}}
+      resources:
+        requests:
+          memory: {{ .Values.nginx.memory}}
+          cpu: {{ .Values.nginx.cpu}}
+
+        
