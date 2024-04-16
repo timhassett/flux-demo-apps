@@ -21,6 +21,6 @@ nginx:
 targetGroupBinding:
   name: nginx
   namespace: default
-  port:
+  port: 80
   targetGroupARN: kustomized
   targetType: ip
