@@ -11,7 +11,7 @@ nginx:
   name: nginx
   namespace: default
   label: nginx
-  replicas: 2
+  replicas: 3
   image: nginx
   imagePullPolicy: Always
   containerPort: 80
